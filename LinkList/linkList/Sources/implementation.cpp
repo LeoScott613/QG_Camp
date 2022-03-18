@@ -51,6 +51,5 @@ int main() {
     new_member->data=114514;
     ResultSet.push_back(InsertList(head,new_member));
     //cout<<head->data<<(head->next)->data<<endl;   test bundle
-
     return 0;
 }
