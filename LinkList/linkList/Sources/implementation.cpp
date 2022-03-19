@@ -106,29 +106,37 @@ LNode* ReverseEvenList(LinkedList *L) {
         return *L;
     }
     LinkedList evenList,even_ptr;
-    for(int i(1);ptr!=NULL;ptr=ptr->next) {
-        InitList(&evenList);
-        even_ptr=evenList;
-        if(i<=0) {
-            i=1;
-            LNode even_data;
-            DeleteList(ptr,&even_data.data);
-            InsertList(even_ptr,&even_data);
+    InitList(&evenList);
+    even_ptr=evenList;
+    bool onlyOnce=true;
+    while(ptr->next!=NULL) {
+        LinkedList even_data=new LNode;
+        DeleteList(ptr,&(even_data->data));
+        if(onlyOnce) {
+            even_ptr->data=even_data->data;
+            onlyOnce=!onlyOnce;
+        }
+        else {
+            InsertList(even_ptr,even_data);
             even_ptr=even_ptr->next;
         }
-        else i--;
+        if(ptr->next==NULL)
+            break;
+        else
+            ptr=ptr->next;
     }
     even_ptr=evenList;
+    //cout<<"evenlist:"<<evenList->data<<evenList->next->data<<endl;
     while(odd!=NULL) {
         LinkedList ToCat=odd,beCated=even_ptr;
         odd=odd->next;
         if(even_ptr->next!=NULL){
-            InsertList(beCated,ToCat);
             even_ptr=even_ptr->next;
+            InsertList(beCated,ToCat);
         }
         else{
-            even_ptr=even_ptr->next;
             InsertList(beCated,ToCat);
+            even_ptr=even_ptr->next;
         }
     }
     *L=evenList;
@@ -139,7 +147,7 @@ int main() {
     vector<Status> ResultSet;//to store executing status result.
     //However, it is only designed for this very implementation.
     ResultSet.push_back(InitList(&head));
-    head->data=19260817;
+    head->data=1;
     //cout<<head->data;
     /* test SUCCEED.
     DestroyList(&head);
@@ -147,7 +155,7 @@ int main() {
         cout<<1;
     */
     LNode *new_member=new LNode;
-    new_member->data=114514;
+    new_member->data=2;
     ResultSet.push_back(InsertList(head,new_member));
     //new_member->next=head;
     //cout<<IsLoopList(head);
@@ -158,10 +166,15 @@ int main() {
     cout<<"this is receive:"<<receive;
     return 0;
     */
-    LNode *p2=new LNode,*p3=new LNode;
-    p2->data=2333;p3->data=4444;
+    LNode *p2=new LNode,*p3=new LNode,*p4=new LNode;
+    p2->data=3;p3->data=4;p4->data=5;
     InsertList(new_member,p2);
     InsertList(p2,p3);
+    InsertList(p3,p4);
     ReverseEvenList(&head);
-
+    cout<<head->data<<endl
+    <<head->next->data<<endl
+    <<head->next->next->data<<endl
+    <<head->next->next->next->data<<endl
+    <<head->next->next->next->next->data;
 }
