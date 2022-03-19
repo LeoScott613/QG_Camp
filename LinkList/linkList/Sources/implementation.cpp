@@ -151,10 +151,32 @@ LNode* ReverseEvenList(LinkedList *L) {
 }
 int main() {
     LinkedList head;
-    vector<Status> ResultSet;//to store executing status result.
-    //However, it is only designed for this very implementation.
-    ResultSet.push_back(InitList(&head));
-    head->data=1;
+    cout<<"输入1创建一个新链表"<<endl;
+    int statusCode(-1);
+    cin>>statusCode;
+    if(statusCode==1) {
+        Status s=InitList(&head);
+        if(s==SUCCESS) {
+            cout<<"Succeed."<<endl;
+            head->data=0;
+        }
+        statusCode=-1;//reset
+    }
+    else {
+        cout<<"error, I got you"<<endl;
+        statusCode=-1;//reset
+        return -1;
+    }
+    cout<<"你可以输入：1 来给头节点添加数据"<<endl;
+    cin>>statusCode;
+    if(statusCode==1) {
+        int data;
+        cout<<"好,输入它的数据：";
+        cin>>data;
+        head->data=data;
+        cout<<"OK了"<<endl;
+    }
+    else cout<<"那头节点的数据是0了"<<endl;
     //cout<<head->data;
     /* test SUCCEED.
     DestroyList(&head);
@@ -163,7 +185,7 @@ int main() {
     */
     LNode *new_member=new LNode;
     new_member->data=2;
-    ResultSet.push_back(InsertList(head,new_member));
+    InsertList(head,new_member);
     //new_member->next=head;
     //cout<<IsLoopList(head);
     //cout<<head->data<<(head->next)->data<<endl;   test Insert
