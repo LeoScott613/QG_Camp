@@ -9,7 +9,7 @@ Status InitList(LinkedList *L) {
         *L=new LNode;
         (*L)->next=NULL;
     }
-    catch(const bad_alloc &e) {
+    catch(const bad_alloc &e) {//if new failed, throw an bad_alloc object
         return ERROR;
     }
     return SUCCESS;
@@ -25,24 +25,26 @@ void DestroyList(LinkedList *L) {
     *L=NULL;//if not so, *L is unsolved.
 }
 Status InsertList(LNode *p, LNode *q) {
-    try {
-        LinkedList save=p->next;
-        p->next=q;
-        q->next=save;
-    }
-    catch(exception &e) {
-        return ERROR;
-    }
+    if(p==q) return ERROR;//it's doing nothing, meaningless, so it returns an error
+    else if(p==NULL || q==NULL) return ERROR;
+    LinkedList save=p->next;
+    p->next=q;
+    q->next=save;
     return SUCCESS;
 }
 Status DeleteList(LNode *p,ElemType *e) {
-    if(p->next==NULL) {
+    if(p->next==NULL || p==NULL) {
         return ERROR;
     }
     LinkedList nextOne=p->next;
     *e=nextOne->data;
     p->next=nextOne->next;
-    delete nextOne;
+    try {
+        delete nextOne;
+    }
+    catch (exception &e) {
+        return ERROR;
+    }
     return SUCCESS;
 }
 void TraverseList(LinkedList L, void (*visit)(ElemType e)) {
@@ -52,6 +54,7 @@ void TraverseList(LinkedList L, void (*visit)(ElemType e)) {
     }
 }
 Status SearchList(LinkedList L, ElemType e) {
+    if(L==NULL) return ERROR;//prediction
     while(L->data!=e && L->next!=NULL)
         L=L->next;
     //when jump out from the loop, its data is e or its next is null
@@ -59,6 +62,7 @@ Status SearchList(LinkedList L, ElemType e) {
     else return ERROR;
 }
 Status ReverseList(LinkedList *L) {
+    if(*L==NULL || L==NULL) return ERROR;//prediction
     LinkedList ptrNode=*L,memNode;
     if(ptrNode->next==NULL) 
         return ERROR;
@@ -73,22 +77,24 @@ Status ReverseList(LinkedList *L) {
     return SUCCESS;
 }
 Status IsLoopList(LinkedList L) {
+    if(L==NULL) return ERROR;//prediction
     LinkedList slow=L;
     if(L->next!=NULL)
         L=L->next;
     else return ERROR;
-    for(int velocity(3);L->next!=NULL;L=L->next) {
+    for(int velocity(2);L->next!=NULL;L=L->next) {
         if(L==slow) 
             return SUCCESS;
         if(velocity==0) {
             slow=slow->next;
-            velocity=3;
+            velocity=2;
         }
         else velocity--;
     }
     return ERROR;
 }
 LNode* FindMidNode(LinkedList *L) {
+    if(*L==NULL || L==NULL) return NULL;//prediction
     LinkedList fast=*L,slow=*L;
     for(int velocity(1);fast->next!=NULL;fast=fast->next) {
         if(velocity<=0) {
@@ -100,6 +106,7 @@ LNode* FindMidNode(LinkedList *L) {
     return slow;
 }
 LNode* ReverseEvenList(LinkedList *L) {
+    if(*L==NULL || L==NULL) return NULL;//prediction
     //break and rebuild
     LinkedList odd=*L,even,ptr=*L;
     if(odd->next==NULL) {
