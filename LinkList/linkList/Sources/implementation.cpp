@@ -15,13 +15,13 @@ Status InitList(LinkedList *L) {
     return SUCCESS;
 }
 void DestroyList(LinkedList *L) {
-    LinkedList *ahead_L=L;
-    while((*L)->next!=NULL) {//traverse and delete
-        *L=(*L)->next;
-        delete (*ahead_L);
-        ahead_L=L;
+    LinkedList ahead=*L,nextOne=*L;
+    while(nextOne->next!=NULL) {//traverse and delete
+        nextOne=nextOne->next;
+        delete ahead;
+        ahead=nextOne;
     }
-    delete (*L);
+    delete nextOne;
     *L=NULL;//if not so, *L is unsolved.
 }
 Status InsertList(LNode *p, LNode *q) {
@@ -48,7 +48,7 @@ Status DeleteList(LNode *p,ElemType *e) {
     return SUCCESS;
 }
 void TraverseList(LinkedList L, void (*visit)(ElemType e)) {
-    while(L->next!=NULL) {
+    while(L!=NULL) {
         (*visit)(L->data);
         L=L->next;
     }
@@ -63,7 +63,9 @@ Status SearchList(LinkedList L, ElemType e) {
 }
 Status ReverseList(LinkedList *L) {
     if(*L==NULL || L==NULL) return ERROR;//prediction
-    LinkedList ptrNode=*L,memNode;
+    LinkedList ptrNode=*L,memNode,End=*L;
+    while(End->next!=NULL)
+        End=End->next;
     if(ptrNode->next==NULL) 
         return ERROR;
     LinkedList nextNode=ptrNode->next;
@@ -74,6 +76,7 @@ Status ReverseList(LinkedList *L) {
         ptrNode->next=memNode;
     }
     (*L)->next=NULL;
+    *L=End;
     return SUCCESS;
 }
 Status IsLoopList(LinkedList L) {
@@ -151,59 +154,76 @@ LNode* ReverseEvenList(LinkedList *L) {
 }
 int main() {
     LinkedList head;
-    cout<<"输入1创建一个新链表"<<endl;
-    int statusCode(-1);
-    cin>>statusCode;
-    if(statusCode==1) {
-        Status s=InitList(&head);
-        if(s==SUCCESS) {
-            cout<<"Succeed."<<endl;
-            head->data=0;
-        }
-        statusCode=-1;//reset
+    cout<<"创建新链表中"<<endl;
+    Status s=InitList(&head);
+    if(s==SUCCESS) {
+        cout<<"Succeed."<<endl;
+        head->data=0;
     }
     else {
         cout<<"error, I got you"<<endl;
-        statusCode=-1;//reset
         return -1;
     }
-    cout<<"你可以输入：1 来给头节点添加数据"<<endl;
-    cin>>statusCode;
-    if(statusCode==1) {
-        int data;
-        cout<<"好,输入它的数据：";
+    int data=1;
+    LinkedList current=head;
+    cout<<"依次输入节点数据,请不要超过2^31+1. 输入0结束输入"<<endl;
+    bool once=true;
+    while(data) {
         cin>>data;
-        head->data=data;
-        cout<<"OK了"<<endl;
+        if(once) {
+            current->data=data;
+            once=false;
+        }
+        else if(data!=0) {
+            LinkedList NewNode=new LNode;
+            InsertList(current,NewNode);
+            current=current->next;
+            current->data=data;
+        }
     }
-    else cout<<"那头节点的数据是0了"<<endl;
-    //cout<<head->data;
-    /* test SUCCEED.
-    DestroyList(&head);
-    if(head==NULL)   //to test if the link is deleted. 
-        cout<<1;
-    */
-    LNode *new_member=new LNode;
-    new_member->data=2;
-    InsertList(head,new_member);
-    //new_member->next=head;
-    //cout<<IsLoopList(head);
-    //cout<<head->data<<(head->next)->data<<endl;   test Insert
-    /* test DeleteList
-    ElemType receive;
-    ResultSet.push_back(DeleteList(head,&receive));
-    cout<<"this is receive:"<<receive;
-    return 0;
-    */
-    LNode *p2=new LNode,*p3=new LNode,*p4=new LNode;
-    p2->data=3;p3->data=4;p4->data=5;
-    InsertList(new_member,p2);
-    InsertList(p2,p3);
-    InsertList(p3,p4);
+    void Display(ElemType e);
+    void (*dis)(ElemType e)=&Display;
+    cout<<"你的链表是:"<<endl;
+    TraverseList(head,dis);
+    cout<<endl;
+    cout<<"该链表中点是:"<<FindMidNode(&head)->data<<endl;
+    //loop linkedlist
+    LinkedList loop,NewNode,loop_ptr;
+    InitList(&loop);
+    loop_ptr=loop;
+    for(int i=0;i<5;i++) {//creates five new nodes
+        NewNode=new LNode;
+        NewNode->data=i+100;//distinguish from
+        InsertList(loop,NewNode);
+    }
+    InsertList(loop,NewNode);//make it a loop
+    if(IsLoopList(loop)) {
+        cout<<"隐藏的循环链表测试通过"<<endl;
+    }
+    else cout<<"没有通过"<<endl;
+    cout<<"倒转后的链表:"<<endl;
+    ReverseList(&head);
+    TraverseList(head,dis);
+    ReverseList(&head);//reverse back
+    cout<<endl;
+    cout<<"奇偶倒转后的链表"<<endl;
     ReverseEvenList(&head);
-    cout<<head->data<<endl
-    <<head->next->data<<endl
-    <<head->next->next->data<<endl
-    <<head->next->next->next->data<<endl
-    <<head->next->next->next->next->data;
+    TraverseList(head,dis);
+    ReverseEvenList(&head);//reverse back
+    cout<<endl;
+    cout<<"输入想搜索的数字"<<endl;
+    ElemType Search(-114);
+    cin>>Search;
+    if(SearchList(head,Search)) {
+        cout<<"有"<<endl;
+    }
+    else cout<<"没有吧"<<endl;
+    DestroyList(&head);
+    cout<<"链表已销毁"<<endl;
+    cout<<"删除节点,插入节点的实现已经体现在奇偶倒转函数中了,所以主动测试就省略了^.^"<<endl;
+    system("pause");
+    return 0;
+}
+void Display(ElemType e) {
+    cout<<e<<' ';
 }
