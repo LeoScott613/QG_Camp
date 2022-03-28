@@ -14,7 +14,6 @@ public class crud {
         book.setImportance(in.nextInt());
         book.setCompletion(in.nextBoolean());
         //get user input to renew the data of the book you want to add
-
         int affected=crud.insertion(book);
         System.out.println(affected+" rows affected.");
 
