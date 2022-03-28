@@ -1,6 +1,6 @@
 import java.sql.*;
 import java.util.*;
-class Book {
+class Book {//the class that store a book's necessary data
     private static String name;
     private static int importance;
     private static boolean completion;
@@ -9,6 +9,8 @@ class Book {
         importance=importan;
         completion=comp;
     }
+
+    //get scope
     public String getName() {
         return name;
     }
@@ -18,9 +20,20 @@ class Book {
     public boolean getCompletion() {
         return completion;
     }
+
+    //set scope
+    public void setName(String n) {
+        name=n;
+    }
+    public void setImportance(int im) {
+        importance=im;
+    }
+    public void setCompletion(boolean comp) {
+        completion=comp;
+    }
 }
 
-public class Utils_crud {
+public class Utils_crud {//the encapsuled crud utilities
     private String user;
     private String password;
     private Connection conn;
@@ -45,25 +58,26 @@ public class Utils_crud {
         catch (Exception e) {
             e.printStackTrace();
         }
-        finally {
-            conn.close();
-            stat.close();
-        }
     }
 
-    public void insertion(Book book) throws SQLException {
+    /*
+    BOOKSHELF'S STRUCTURE
+    |ID(INT) | NAME(TEXT) | IMPORTANCE(INT) | COMPLETION(BOOLEAN)|
+    |        |            |                 |                    |
+    */
+
+    public int insertion(Book book) throws SQLException {//insert data into the table:bookshelf
         rs=stat.executeQuery("SELECT ID FROM BOOKSHELF");
         
         int count=0;
         while(rs.next()){
             count++;
         }
-        System.out.println("enter data(ID,NAME,IMPORTANCE,COMPLETION):");
-        Scanner in=new Scanner(System.in);
 
         INSERT_QUERY=String.format("INSERT INTO BOOKSHELF VALUES (%d,\'%s\',%d,%b)",++count,book.getName(),
         book.getImportance(),book.getCompletion());//prepare the INSERT_QUERY
-        int status=stat.executeUpdate(INSERT_QUERY);
+        int affected=stat.executeUpdate(INSERT_QUERY);//it's how many rows affected
+        return affected;
     }
     
     public int create(String sql) throws SQLException{//create table,temporarily given up
