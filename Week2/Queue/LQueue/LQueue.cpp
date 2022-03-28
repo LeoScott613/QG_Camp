@@ -87,31 +87,17 @@ void ClearLQueue(LQueue *Q){
 	Q->rear=Q->front;
 	Q->length=0;
 }
-
-/**
- *  @name        : Status TraverseLQueue(const LQueue *Q, void (*foo)(void *q))
- *    @description : 遍历函数操作
- *    @param         Q 队列指针Q，操作函数指针foo
- *    @return         : None
- *  @notice      : None
- */
 Status TraverseLQueue(const LQueue *Q, void (*foo)(void *q)){
-	
+	if(Q->front==NULL||Q==NULL||foo==NULL)//prevention
+		return FALSE;
+	Node *Safari=Q->front;
+	while(Safari->next!=NULL) {//the initial position of Safari is the empty head node
+		Safari=Safari->next;
+		(*foo)(Safari->data);//?:foo(Safari->data) is also undetective
+	}//the final position of Safari is the last node
+	return TRUE;
 }
-
-/**
- *  @name        : void LPrint(void *q)
- *    @description : 操作函数
- *    @param         q 指针q
- 
- *  @notice      : None
- */
 void LPrint(void *q){
-	cout<<' ';
 }
-
-/**************************************************************
- *    End-Multi-Include-Prevent Section
- **************************************************************/
 
 

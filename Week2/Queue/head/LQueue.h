@@ -16,6 +16,7 @@
 /**************************************************************
  *    Multi-Include-Prevent Section
  **************************************************************/
+#pragma once
 #ifndef LQUEUE_H_INCLUDED
 #define LQUEUE_H_INCLUDED
 
@@ -23,7 +24,7 @@
  *    Struct Define Section
  **************************************************************/
 //链式队列结构
-typedef int size_t;
+//typedef int size_t;
 typedef struct node
 {
     void *data;                   //数据域指针
@@ -34,15 +35,15 @@ typedef struct Lqueue
 {
     Node *front;                   //队头
     Node *rear;                    //队尾
-    size_t length;            //队列长度
+    unsigned long long length;            //队列长度
 } LQueue;
 
 typedef enum
 {
     FALSE=0, TRUE=1
 } Status;
-char type;					
-char datatype[30];			
+//char type;					
+//char datatype[30];			
 
 /**************************************************************
  *    Prototype Declare Section
