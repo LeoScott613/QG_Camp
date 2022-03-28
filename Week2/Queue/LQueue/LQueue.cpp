@@ -1,5 +1,6 @@
 #include "../head/LQueue.h" 
 #include <iostream>
+#include <string>
 using namespace std;
 void InitLQueue(LQueue *Q){//Q's real para is a variable.
 	Q->front=new Node;//init a linklist
@@ -55,6 +56,7 @@ Status EnLQueue(LQueue *Q, void *data){
 	}
 	Newmem->data=data;//update data
 	Q->rear->next=Newmem;//enter the queue
+	Q->rear=Newmem;//move rear
 	Newmem->next=NULL;//follow the "tradition" of the queue
 	Q->length++;//update the length
 	return TRUE;

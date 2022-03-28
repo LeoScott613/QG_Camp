@@ -9,7 +9,7 @@ typedef enum Status
 
 typedef int ElemType;
 
-typedef  struct StackNode
+typedef  struct StackNode//real estate
 {
 	ElemType data;
 	struct StackNode *next;
@@ -17,10 +17,10 @@ typedef  struct StackNode
 
 typedef  struct  LinkStack
 {
-	LinkStackPtr top;
+	LinkStackPtr top;//stack top ptr
 	int	count;
 }LinkStack;
-
+//the StackNode is afflicated to LinkStack
 
 
 //Á´Õ»

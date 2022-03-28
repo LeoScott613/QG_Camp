@@ -19,6 +19,7 @@ int main() {
         cout<<"Instruction:"<<endl<<"1.Test if empty\n2.Enqueue\n3.Dequeue\n4.ClearLQueue\n5.Get Head of the queue\n6.Clear the queue\n7.Destroy the queue"<<endl;
         cin>>cmdlet;
     }
+    //I should have prevented someone input ctrl+z, but I have no time T.T
     int cmd=*(cmdlet.begin())-'0';
     Status show;
     string lineOfData;
