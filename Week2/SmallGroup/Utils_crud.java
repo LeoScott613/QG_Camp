@@ -80,6 +80,21 @@ public class Utils_crud {//the encapsuled crud utilities
         int affected=stat.executeUpdate(INSERT_QUERY);//it's how many rows affected
         return affected;
     }
+
+    //before finishing this, I should learn main key
+    public int deleteLine() throws SQLException {//delete chosen line from the table
+        rs=stat.executeQuery("SELECT ID FROM BOOKSHELF");
+
+        int count=0;
+        while(rs.next()){
+            count++;
+        }
+
+        /*Reserve*/
+
+        int affected=0;
+        return affected;
+    }
     
     public int create(String sql) throws SQLException{//create table,temporarily given up
         //column_num is the amount of columns
