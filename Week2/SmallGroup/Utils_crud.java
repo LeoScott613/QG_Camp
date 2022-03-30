@@ -1,9 +1,10 @@
 import java.sql.*;
 import java.util.*;
 class Book {//the class that store a book's necessary data
-    private static String name;
-    private static int importance;
-    private static boolean completion;
+    private String name;
+    private int importance;
+    private boolean completion;
+    //don't use static type because no need to share information between different instances
     public Book(String n,int importan,boolean comp) {
         name=n;
         importance=importan;
