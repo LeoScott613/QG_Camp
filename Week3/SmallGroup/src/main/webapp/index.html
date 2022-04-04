@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test bundle</title>
+    <script src="jquery-3.6.0.js"></script>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <p>按名字检索</p> 
+
+    <input type="text" id="bookn">
+
+    <p><button id="seekbook">To seek</button></p>
+    <script>
+        $(document).ready(function () {
+            $("#seekbook").click(function () {
+                var bookname=document.getElementById("bookn").value;
+                $.get("BookShelf?bookname="+bookname,function(data) {
+                    alert(data);
+                });
+                $(this).load("BookShelf?name=en");
+            });
+            });  
+    </script>
+</body>
+
+</html>
