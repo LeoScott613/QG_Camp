@@ -1,5 +1,5 @@
 package tableElement;
-
+import java.util.*;
 public class Book {
 	private String name;
 	private int importance;
@@ -25,5 +25,14 @@ public class Book {
 	}
 	public void setCompletion(boolean completion) {
 		this.completion = completion;
+	}
+	public boolean check() {//prevent SQL attack
+		Iterator<String> inspector=name.Iterator();
+		while(inspector.hasNext()) {
+			char sign=inspector.next();
+			if(sign==';')
+				return true;
+		}
+		return false;
 	}
 }
