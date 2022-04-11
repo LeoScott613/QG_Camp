@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Login here</title>
+	<script src="jquery-3.6.0.js"></script>
+</head>
+<body>
+
+<p>账号：<input type="text" id="account"></p>
+<p>密码：<input type="password" id="password"></p>
+<p><button id="login">登录</button><button id="sign">注册</button></p>
+<p id="wrong"></p>
+<script>
+	$(document).ready(function(){
+		$("#login").click(function(){
+			$.post("BookShelf",
+			{
+				func:"login_capcha",
+				account:$("#account").val(),
+				password:$("#password").val()
+			},function(data){
+				var Message=JSON.parse(data);
+				if(Message.message=="login_success") {
+					window.location.href="index.html";
+				}
+				else {
+					$("#wrong").text("你的用户名或密码错误");
+				}
+			});
+		});
+	});
+</script>
+
+</body>
+</html>
