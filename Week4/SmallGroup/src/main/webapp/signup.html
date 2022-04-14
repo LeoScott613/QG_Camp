@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>注册页</title>
+<script src="jquery-3.6.0.js"></script>
+</head>
+<body>
+<p>用户名----<input id="acc" type="text"></p>
+<p>密码------<input id="pas1" type="password"></p>
+<p>确认密码--<input id="pas2" type="password"></p>
+<p><button id="sign">注册</button></p>
+<script>
+	$(document).ready(function(){
+		$("#sign").click(function() {
+			var acc=document.getElementById("acc").value;
+			var pas1=document.getElementById("pas1").value;
+			var pas2=document.getElementById("pas2").value;
+			if(pas1!=pas2) {
+				alert("两次输入的密码不一样");
+			}
+			else {
+				$.post("BookShelf",
+				{
+					func:"signup",
+					account:acc,
+					password:pas1
+				},function(data){
+					var Message=JSON.parse(data);
+					if(Message.message=="success") {
+						alert("OK");
+						window.location.href="login_page.html";
+					}
+					else {
+						alert("有人与你重名或你正在尝试SQL注入");
+					}
+				});
+			}
+		});
+	});
+</script>
+</body>
+</html>

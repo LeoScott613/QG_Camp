@@ -8,8 +8,6 @@
 </head>
 
 <body>
-<div style="border:solid;width:200px">
-</div>
 <div style="margin:auto; width:300px; text-align:center; border-style:solid ;">
     <p>按名字检索</p> 
 
@@ -17,17 +15,37 @@
 
     <p><button id="seekbook">To seek</button></p>
 </div>
+<div style="margin:auto; width:300px; text-align:center; border-style:solid ;">
+    <p>按名字模糊检索</p> 
+
+    <input type="text" id="fbookn">
+
+    <p><button id="fseekbook">To seek</button></p>
+</div>
     <script>
         $(document).ready(function () {
-            $("#seekbook").click(function () {
-                var name=document.getElementById("bookn").value;
-                $.post("BookShelf",{
-                	func:"seek",
-                	bookname:name
-                },function(data){
-                	alert("书本数量："+data);
-                });
-            });
+	            $("#seekbook").click(function () {
+	                var name=document.getElementById("bookn").value;
+	                $.post("BookShelf",{
+	                	func:"seek",
+	                	bookname:name
+	                },function(data){
+	                	var message=JSON.parse(data);
+	                	alert("书本数量："+message.amount);
+	                });
+	            });
+	            
+	            $("#fseekbook").click(function() {
+	            	var name=document.getElementById("fbookn").value;
+	            	$.post("BookShelf",{
+	            		func:"fseek",
+	            		bookname:name
+	            	},function(data){
+	            		var Message=JSON.parse(data);
+	            		alert("书本数量"+Message.amount);
+	            	});
+	            });
+            
             });  
     </script>
 </body>

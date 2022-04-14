@@ -3,6 +3,7 @@ package tableElement;
 public class Librarian {
 	private String userName;
 	private String password;
+	public Librarian() {}
 	public Librarian(String user,String pass) {
 		this.userName=user;
 		this.password=pass;
